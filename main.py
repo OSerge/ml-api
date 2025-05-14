@@ -10,7 +10,6 @@ app = FastAPI(
     version="1.0"
 )
 
-# Модель загружается при старте приложения
 MODEL_PATH = "model.pkl"
 
 if not os.path.exists(MODEL_PATH):
@@ -20,11 +19,9 @@ if not os.path.exists(MODEL_PATH):
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f, encoding='latin1')
 
-# Схема для валидации входных данных
 class PredictionRequest(BaseModel):
     features: list[float]
 
-    # Валидация количества признаков
     @field_validator('features')
     def check_features_length(cls, v):
         if len(v) != 2:
